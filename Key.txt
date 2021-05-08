@@ -1,3 +1,10 @@
+pip install name - установка модул€ name
+
+some features
+result = a if a > b else b - присваивание значени€ в обход создани€ условных операторов
+str(num) == str(num)[::-1] - обращение к списку или строке внутри функции
+
+
 keywords
 False - ложь.
 True - правда
@@ -138,7 +145,7 @@ Sets
 элемент in множество - проверка наличи€ элемента во множестве
 
 Functions
-def function_name(a,b,c=n) создание функции с именем function_name и аргументами a, b, c при этом в случае не объ€влени€ fhuevtynf c значение будет прин€то по умолчанию n
+def function_name(a,b,c=n) создание функции с именем function_name и аргументами a, b, c при этом в случае не объ€влени€ переменной c, значение будет прин€то по умолчанию n
 	
 Patern fo decorartor
 def my_decorator(fn):
@@ -151,10 +158,25 @@ def my_decorator(fn):
     return wrapper
 
 
+Pandas (https://pandas.pydata.org/pandas-docs/stable/index.html)
+name.loc['descr1','descr2',...,'descrn'] = обращение к элементам структуры данных по именам индексов (descr1-descrn)
+name.iloc[[0,...n]] - обращение к элементам по индексам
+name.tail(n) - вывести последние n строки (по умолчанию 5)
+name.head(n) - вывести первые n строки (по умолчанию 5)
+name.copy() - копирование структуры данных
+name['col_name'].unique() - вывод уникальных строк столбца col_name
+name.col_name.value_counts() - вывод списка с подсчетом всех значений дл€ каждого уникального значени€ col_name
+name.info() - вывести информацию по столбцам
+	null_counts - подсчет пустых элементов
+pandas.read_csv(filepath_or_buffer, sep=<object object>, delimiter=None, header='infer', names=None, index_col=None, usecols=None, squeeze=False...) - создание структуры из csv файла
 
+name.describe() - формирование статистики по выранному массиву данных
+name.col_name.describe() - формирование статистики по выбранной колонке
 
-
-
+¬ывод статистики без "обрезани€" колонок
+with pandas.option_context('display.max_rows', None, 'display.max_columns', None):
+    display(name.describe()) 
+»спользование логических операторов &(и) и | (или)
 
 
 
@@ -182,3 +204,7 @@ git branch keys name - создать ветку name дл€ проекта
 	-v - вывести последнии коммиты ветки
 git checkout name - переключение на ветку name
 git merge name_branch - сли€ние ветки name_branch с текуим (выпбранным) проектом
+git clone \\url копировать коммит с URL на локальный компьютер
+git remote add name \\URL - создание ссылки на удаленный репохиторий
+git remote set-url name \\URL - обновление ссылки на уже созданный репозиторий
+git push name1 branch_name загрузка 
