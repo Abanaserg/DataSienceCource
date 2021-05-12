@@ -164,21 +164,36 @@ name.iloc[[0,...n]] - обращение к элементам по индексам
 name.tail(n) - вывести последние n строки (по умолчанию 5)
 name.head(n) - вывести первые n строки (по умолчанию 5)
 name.copy() - копирование структуры данных
+name.columns=['name_1',..,'name_n'] - присвоение имен колоннок массива данных
+name.reset_index() - перевод индексов серии в столбец массива данных
 name['col_name'].unique() - вывод уникальных строк столбца col_name
+name['col_name'].nunique() - вывод количества уникальных строк столбца col_name
 name.col_name.value_counts() - вывод списка с подсчетом всех значений для каждого уникального значения col_name
+	bin=n запуск с параметром разбиения набора значений на n равных частей (выведетется подсчет из n строк и количество элементов, попадающих в i диапазон)
 name.info() - вывести информацию по столбцам
 	null_counts - подсчет пустых элементов
 pandas.read_csv(filepath_or_buffer, sep=<object object>, delimiter=None, header='infer', names=None, index_col=None, usecols=None, squeeze=False...) - создание структуры из csv файла
-
-name.describe() - формирование статистики по выранному массиву данных
-name.col_name.describe() - формирование статистики по выбранной колонке
-
+name.groupby['col_name'].method - применения method (аггрегирующая функция) к сгруппированному по столбцу col_name массиву данных. method применяется ко всем значениям столбцов, отличных от col_name
+	agg(method_1,method_2)
+name.describe() - формирование мат. статистики по выранному массиву данных
+name.pivot_table() - вывод результируюещй таблицы по заданным параметрам и методу
+	value=col_name1 - откуда брать значения таблицы
+	index=col_name2 - какая колоннка будет индексом (именем строки)
+	columns=col_name3 - какая колонка будет наименование колонок результирующей таблицы
+	aggfunc='fn_name' - имя агрегирующей функции
+	margins=True/False - вывод строки с итоговыми значениями
+	fill_value=n замена значений NaN на значение n
+	
+name.col_name.describe() - формирование мат. статистики по выбранной колонке
+...sort_values() сортировка массива/списка данных
+	ascending=False - сортировка по убыванию
 Вывод статистики без "обрезания" колонок
 with pandas.option_context('display.max_rows', None, 'display.max_columns', None):
     display(name.describe()) 
 Использование логических операторов &(и) и | (или)
 
-
+name.col_name.method - обращение ко всему массиву данных прининив method к столбцу col_name 
+name['col_name'].method - обращение к конкретному столбцу массива данных
 
 
 
