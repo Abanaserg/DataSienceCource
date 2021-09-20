@@ -1,0 +1,66 @@
+with tickect_class as (
+    select 
+        tf.flight_id,
+        count(case when tf.fare_conditions = 'Economy' then tf.fare_conditions end) economy_ticket_count,
+        count(case when tf.fare_conditions = 'Business' then tf.fare_conditions end) buisness_ticket_count
+    from 
+        dst_project.ticket_flights as tf
+    group by 1
+    ),
+    income as (
+        select 
+            flight_id,
+            sum (tf.amount) actual_amount_sum
+        from dst_project.ticket_flights tf
+        group by 1
+            
+    )
+    
+
+select 
+    f.flight_id,
+    f.flight_no,
+    f.scheduled_departure,
+    f.scheduled_arrival,
+    f.scheduled_arrival-f.scheduled_departure schedule_flight_time,
+    f.departure_airport,
+    f.arrival_airport,
+    f.actual_departure,
+    f.actual_arrival,
+    f.actual_arrival-f.actual_departure actual_flight_time,
+    f.scheduled_arrival-f.actual_arrival arival_delay,
+    f.scheduled_departure-f.actual_departure departure_delay,
+    ac.model,
+    ic.actual_amount_sum actual_amount_sum,
+    (count(distinct bp.ticket_no)) boarding_tickets,
+    tc.economy_ticket_count economy_ticket_count,
+    tc.buisness_ticket_count buisness_ticket_count
+    
+from dst_project.flights f
+    left join dst_project.aircrafts ac on f.aircraft_code=ac.aircraft_code
+        left join tickect_class tc on tc.flight_id = f.flight_id
+            left join income ic on ic.flight_id=f.flight_id
+                left join dst_project.ticket_flights tf on f.flight_id=tf.flight_id
+                    left join dst_project.tickets t on tf.ticket_no=t.ticket_no
+                        left join dst_project.bookings b on t.book_ref=b.book_ref
+                            left join dst_project.boarding_passes bp on bp.ticket_no=tf.ticket_no
+                            
+
+where departure_airport = 'AAQ'
+  and (date_trunc('month', scheduled_departure) in ('2017-01-01','2017-02-01', '2017-12-01'))
+  and status not in ('Cancelled')
+group by f.flight_id, ac.model,  tc.economy_ticket_count, tc.buisness_ticket_count, ic.actual_amount_sum
+
+
+Вторая выгрузка для сбора информации по самолетам
+select
+    ac.*,
+    count(case when s.fare_conditions = 'Economy' then s.fare_conditions end) economy_ticket_count,
+    count(case when s.fare_conditions = 'Business' then s.fare_conditions end) business_ticket_count,
+    count(case when s.fare_conditions = 'Comfort' then s.fare_conditions end) comfort_ticket_count,
+    count(s.seat_no) current_seats
+from 
+    dst_project.aircrafts ac
+        join dst_project.seats s on ac.aircraft_code=s.aircraft_code
+group by ac.aircraft_code
+        
